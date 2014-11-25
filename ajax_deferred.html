@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.firstElementChild.addEventListener('change', function () {
+
+                /*var deferredFunction = generalFunction(async);
+                deferredFunction() // return a promise*/
+
+                // todo:
+
+
+                function uploadFile(file) {
+                    return $.Deferred(function () {
+                        var deferred = this;
+                        var formdata = new FormData();
+                        formdata.append(file.name, file);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'http://uitr.herokuapp.com/upload');
+                        xhr.setRequestHeader('accept', 'application/json');
+                        xhr.upload.addEventListener('progress', function (event) {
+                            deferred.notify(Math.round(event.loaded / event.total * 100));
+                        });
+                        xhr.addEventListener('readystatechange', function () {
+                            if( xhr.readyState === 4 && xhr.status === 200 ) {
+                                var obj = JSON.parse(xhr.responseText);
+                                deferred.resolve(obj);
+                            }
+                        });
+                        xhr.send(formdata);
+                    });
+                }
+
+                var deferred = uploadFile(this.files[0]);
+
+                deferred.progress(function (percent_complete) {
+                    console.log(percent_complete);
+                    $('progress').attr('value', percent_complete);
+                });
+
+                deferred.then(function (data) {
+                    console.log(data);
+                });
+
+
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="file"/>
+<progress max="100" value="0"></progress>
+</body>
+</html>

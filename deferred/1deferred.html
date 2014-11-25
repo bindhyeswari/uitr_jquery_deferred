@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="description" content="encapsulating a custom deferred javascript function"/>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script>
+
+        function readFile(file) {
+            return $.Deferred(function () {
+                console.log('reading files ... ');
+                var deferred = this;
+                var reader = new FileReader();
+                reader.addEventListener('loadend', function () {
+                    deferred.resolve(reader.result);
+                });
+                reader.readAsDataURL(file)
+            });
+        }
+
+
+        $.when(readFile(file1), readFile(file2)).done(function () {
+            console.log(arguments);
+        });
+
+        $(function () {
+            $('input').change(function () {
+                var files = Array.prototype.slice.call(this.files);
+                var arr_promises = files.map(readFile);
+                console.log('This is where I will try to resolve ... ');
+                $.when.apply($, arr_promises).done(function () { // also explain the normal $.when(fn1(), fn2()).done();
+                    console.log(arguments);
+                });
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<input type="file" multiple/>
+</body>
+</html>

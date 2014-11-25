@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script>
+        $.ajax({
+            url: 'http://uitr.herokuapp.com/countries',
+            dataType: 'json',
+            beforeSend: function (jqXHR, settings) {
+                console.log(settings);
+                console.log(settings.xhr());
+            }
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

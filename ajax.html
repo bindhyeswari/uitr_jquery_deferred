@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+
+        function makeAjax (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.setRequestHeader('accept', 'application/json');
+            xhr.addEventListener('readystatechange', function () {
+                if( xhr.readyState === 4 && xhr.status === 200 ) {
+                    var obj = JSON.parse(xhr.responseText);
+                    callback(obj);
+                }
+            });
+            xhr.send();
+        }
+
+        var callback_success = undefined;
+
+
+
+        var promise = makeAjax('http://asdfasdf', callback_success);
+
+        // one hr later
+        var callback_success  = function(obj) {
+            console.log(obj);
+        }
+
+        promise.then(callback_success);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input type="file" multiple/>
+<input type="file" id="raysinputfile"/>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script>
+    document.body.firstElementChild.addEventListener('change', function () {
+        console.log(this.files);
+
+        function readFile(file) {
+            return $.Deferred(function () {
+                console.log('reading files ... ');
+                var deferred = this;
+                var reader = new FileReader();
+                reader.addEventListener('loadend', function () {
+                    deferred.resolve(reader.result);
+                });
+                reader.readAsDataURL(file)
+            });
+        }
+
+        // get an array of deferreds and
+        // invoke the .when on it
+
+        var files = Array.prototype.slice.call(this.files);
+        var arr_promises = files.map(readFile); // start reading files
+
+
+        console.log('This is where I will try to resolve ... ');
+        $.when.apply($, arr_promises).done(function () { // also explain the normal $.when(fn1(), fn2()).done();
+            console.log(arguments);
+        });
+
+        /*$.when(readFile(this.files[0]), readFile(this.files[1])).done(function () { // start reading files
+
+        });*/
+
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+
+        var img = new Image();
+        var start = new Date();
+        img.addEventListener('load', function () {
+            console.log('Done loading the image ... ');
+            console.log((new Date()) - start);
+            var canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+
+            var context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0);
+            console.log(canvas.toDataURL());
+        });
+        img.src = 'https://github.com/assets/modules/dashboard/bootcamp/octocat_setup-1d94846160fdf54b6ca7d2b73aa5f1647322513514786ac9e137b1eb846db9ca.png';
+
+    </script>
+</head>
+<body>
+    <input type="text"/>
+</body>
+</html>
